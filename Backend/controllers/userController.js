@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import Topic from "../models/Topic.js";
+import cloudinary from "../cloudinary/cloudinaryConfig.js";
 
 export const signup = async (req, res) => {
     const { name, email, password } = req.body;
@@ -20,7 +21,6 @@ export const signup = async (req, res) => {
             password: hashedPassword
         });
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-        console.log(token);
         res.cookie("jwt", token);
         return res.status(200).json({
             message: "User created succesfully!", user: {
@@ -55,7 +55,8 @@ export const login = async (req, res) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                topics: user.topics
+                topics: user.topics,
+                photoUrl: user.photoUrl
             }
         });
     } catch (error) {
@@ -89,25 +90,43 @@ export const userDetails = async (req, res) => {
     }
 };
 
-export const update = async (req,res) => {
-
+export const update = async (req, res) => {
     try {
         const user = req.user;
-        const {name,password} = req.body;
-        if(password)
-        {
+        const { name, password } = req.body;
+        let profilePicUrl = user.photoUrl; 
+
+        if (req.file) {
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                folder: 'profile_pictures',
+                width: 150,
+                height: 150,
+                crop: 'fill'
+            });
+            profilePicUrl = result.secure_url;
+        }
+
+        const updateData = {
+            name: name,
+            photoUrl: profilePicUrl
+        };
+
+        if (password) {
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash(password, salt);
-           const userDetails = await User.findByIdAndUpdate(user._id, {
-               name: name,
-               password: hashedPassword
-            }).select("-password");
-            return res.status(200).json({ message: "Profile has been updated!!", user: userDetails });
+            updateData.password = hashedPassword;
         }
-        const userDetails = await User.findByIdAndUpdate(user._id, {
-               name: name,
-            });
-        return res.status(200).json({ message: "Profile has been updated!!", user: userDetails });
+
+        const userDetails = await User.findByIdAndUpdate(
+            user._id,
+            updateData,
+            { new: true }
+        ).select("-password");
+
+        return res.status(200).json({ 
+            message: "Profile has been updated!!", 
+            user: userDetails 
+        });
         
     } catch (error) {
         return res.status(500).json({ error: error.message });

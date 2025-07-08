@@ -17,7 +17,11 @@ const userSchema = new mongoose.Schema({
     topics: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Topic",
-    }]
+    }],
+    photoUrl: {
+        type: String,
+        default: ""
+    }
 });
 
 const User = mongoose.model("User", userSchema);
