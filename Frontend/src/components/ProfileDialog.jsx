@@ -55,7 +55,7 @@ export default function ProfileDialog({ setUpdate }) {
       if (profilePic) formData.append("profilePic", profilePic);
 
       const res = await axios.post(
-        "https://note-it-n0cc.onrender.com/user/update", 
+        "https://localhost:5000/user/update", 
         formData,
         {
           withCredentials: true,
