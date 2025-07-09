@@ -30,7 +30,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
   useEffect(() => {
     const getTopics = async () => {
       try {
-        const res = await axios.get("${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics", { 
+        const res = await axios.get($`{import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics`, { 
           withCredentials: true 
         });
         setTopics(res.data.topics);
@@ -47,7 +47,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
     const trimmed = newTopic.trim();
     if (!trimmed) return;
     const payload = { user: authUser, name: trimmed };
-    const res = await axios.post("${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics/add", payload, {
+    const res = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics/add`, payload, {
       withCredentials: true,
     });
     Cookies.set("user", JSON.stringify(res.data.user), { expires: 7 });

@@ -76,7 +76,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
         kind: kind,
       };
 
-      const res = await axios.post("${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/links/add", payload, {
+      const res = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/links/add`, payload, {
         withCredentials: true,
       });
 
@@ -546,7 +546,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
                         } transition-colors`}
                         title="Edit"
                       >
-                        <FiEdit2 className="h-4 w-4" />
+                        <FiEdit2 className="h-4 w-4 cursor-pointer" />
                       </button>
                       <button
                         onClick={() => {
@@ -560,7 +560,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
                         } transition-colors`}
                         title="Delete"
                       >
-                        <FiTrash2 className="h-4 w-4" />
+                        <FiTrash2 className="h-4 w-4 cursor-pointer" />
                       </button>
                     </div>
                   </div>

@@ -13,7 +13,6 @@ export default function Profile() {
   const navigate = useNavigate();
   const [update, setUpdate] = useState(false);
   const { loading, setLoading } = useLoading();
-  console.log(authUser);
 
   const handleLogout = async () => {
     setLoading(true);
