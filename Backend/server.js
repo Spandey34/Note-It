@@ -21,8 +21,8 @@ app.use("/user", userRoute);
 app.use("/topics", topicRoute);
 app.use("/links", linkRoute);
 app.use("/",(req,res) => {
-  res.setEncoding("Welcome to Backend");
-})
+  res.send("Welcome to Backend");
+});
 
 
 const PORT = process.env.PORT || 4000;
