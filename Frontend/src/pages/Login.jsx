@@ -37,8 +37,8 @@ export default function Login() {
 
       const url =
         state === "signup"
-          ? "http://localhost:5000/user/signup"
-          : "http://localhost:5000/user/login";
+          ? "https://note-it-n0cc.onrender.com/user/signup"
+          : "https://note-it-n0cc.onrender.com/user/login";
 
       const res = await axios.post(url, payload, { withCredentials: true });
       setMsg(res.data.message);
