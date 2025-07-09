@@ -20,7 +20,7 @@ export default function Profile() {
     try {
       Cookies.remove("jwt");
       await axios.post(
-        "https://localhost:5000/user/logout",
+        "http://localhost:5000/user/logout",
         {},
         { withCredentials: true }
       );

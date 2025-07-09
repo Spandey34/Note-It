@@ -37,8 +37,8 @@ export default function Login() {
 
       const url =
         state === "signup"
-          ? "https://localhost:5000/user/signup"
-          : "https://localhost:5000/user/login";
+          ? "http://localhost:5000/user/signup"
+          : "http://localhost:5000/user/login";
 
       const res = await axios.post(url, payload, { withCredentials: true });
       setMsg(res.data.message);

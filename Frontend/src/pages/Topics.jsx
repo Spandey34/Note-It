@@ -30,7 +30,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
   useEffect(() => {
     const getTopics = async () => {
       try {
-        const res = await axios.get("https://localhost:5000/topics", { 
+        const res = await axios.get("http://localhost:5000/topics", { 
           withCredentials: true 
         });
         setTopics(res.data.topics);
@@ -47,7 +47,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
     const trimmed = newTopic.trim();
     if (!trimmed) return;
     const payload = { user: authUser, name: trimmed };
-    const res = await axios.post("https://localhost:5000/topics/add", payload, {
+    const res = await axios.post("http://localhost:5000/topics/add", payload, {
       withCredentials: true,
     });
     Cookies.set("user", JSON.stringify(res.data.user), { expires: 7 });
@@ -62,7 +62,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `https://localhost:5000/topics/delete/${activeTopicId}`,
+        `http://localhost:5000/topics/delete/${activeTopicId}`,
         {},
         { withCredentials: true }
       );
@@ -81,7 +81,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
     try {
       const payload = { newName: renameValue };
       const res = await axios.post(
-        `https://localhost:5000/topics/rename/${activeTopicId}`,
+        `http://localhost:5000/topics/rename/${activeTopicId}`,
         payload,
         { withCredentials: true }
       );
@@ -99,7 +99,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
     try {
       Cookies.remove("jwt");
       await axios.post(
-        "https://localhost:5000/user/logout",
+        "http://localhost:5000/user/logout",
         {},
         { withCredentials: true }
       );
