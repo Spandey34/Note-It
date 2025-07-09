@@ -22,8 +22,6 @@ app.use("/topics", topicRoute);
 app.use("/links", linkRoute);
 
 
-
-
 const PORT = process.env.PORT || 4000;
 mongoose.connect(process.env.MONGO_URI)
 .then(() => {
@@ -32,19 +30,3 @@ mongoose.connect(process.env.MONGO_URI)
         console.log(`Server is running at PORT: ${PORT}`)
     })
 })
-
-//-------------Deployment----------
-
-const __dirname1 = path.resolve();
-
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname1,'.', 'Frontend', 'dist')));
-
-  app.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname1, '.', 'Frontend', 'dist', 'index.html'));
-  });
-} else {
-  app.get('/', (req, res) => {
-    res.send('API is running successfully!');
-  });
-}
