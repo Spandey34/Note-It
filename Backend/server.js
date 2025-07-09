@@ -11,8 +11,19 @@ import path from "path";
 dotenv.config()
 const app = express();
 app.use(express.json());
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "http://localhost:3000"
+];
+
 app.use(cors({
-  origin: `${process.env.FRONTEND_URL}`, // frontend URL
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed for: " + origin));
+    }
+  },
   credentials: true
 }));
 app.use(cookieParser());
