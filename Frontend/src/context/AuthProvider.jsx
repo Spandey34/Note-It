@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     const  getAuthUser = async () => {
          if (userCookie) {
       try {
-        const res = await axios.get("https://note-it-backend-pga4.onrender.com/user", { withCredentials: true });
+        const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user`, { withCredentials: true });
         setAuthUser(res.data.user);
       } catch (error) {
         console.error("Invalid user cookie format");

@@ -30,7 +30,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
   useEffect(() => {
     const getTopics = async () => {
       try {
-        const res = await axios.get("https://note-it-backend-pga4.onrender.com/topics", { 
+        const res = await axios.get("${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics", { 
           withCredentials: true 
         });
         setTopics(res.data.topics);
@@ -47,7 +47,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
     const trimmed = newTopic.trim();
     if (!trimmed) return;
     const payload = { user: authUser, name: trimmed };
-    const res = await axios.post("https://note-it-backend-pga4.onrender.com/topics/add", payload, {
+    const res = await axios.post("${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics/add", payload, {
       withCredentials: true,
     });
     Cookies.set("user", JSON.stringify(res.data.user), { expires: 7 });
@@ -62,7 +62,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `https://note-it-backend-pga4.onrender.com/topics/delete/${activeTopicId}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics/delete/${activeTopicId}`,
         {},
         { withCredentials: true }
       );
@@ -81,7 +81,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
     try {
       const payload = { newName: renameValue };
       const res = await axios.post(
-        `https://note-it-backend-pga4.onrender.com/topics/rename/${activeTopicId}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics/rename/${activeTopicId}`,
         payload,
         { withCredentials: true }
       );
@@ -99,7 +99,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
     try {
       Cookies.remove("jwt");
       await axios.post(
-        "https://note-it-backend-pga4.onrender.com/user/logout",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/logout`,
         {},
         { withCredentials: true }
       );

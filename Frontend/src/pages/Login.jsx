@@ -37,8 +37,8 @@ export default function Login() {
 
       const url =
         state === "signup"
-          ? "https://note-it-backend-pga4.onrender.com/user/signup"
-          : "https://note-it-backend-pga4.onrender.com/user/login";
+          ? `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/signup`
+          : `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/login`;
 
       const res = await axios.post(url, payload, { withCredentials: true });
       setMsg(res.data.message);

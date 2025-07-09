@@ -44,7 +44,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`https://note-it-backend-pga4.onrender.com/topics/${topicId}`, {
+        const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics/${topicId}`, {
           withCredentials: true,
         });
         setTopicName(res.data.topic.name);
@@ -76,7 +76,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
         kind: kind,
       };
 
-      const res = await axios.post("https://note-it-backend-pga4.onrender.com/links/add", payload, {
+      const res = await axios.post("${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/links/add", payload, {
         withCredentials: true,
       });
 
@@ -97,7 +97,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
     try {
       const payload = { topicId: topicId };
       const res = await axios.post(
-        `https://note-it-backend-pga4.onrender.com/links/remove/${activeLinkId}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/links/remove/${activeLinkId}`,
         payload,
         { withCredentials: true }
       );
@@ -123,7 +123,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
       };
 
       const res = await axios.post(
-        `https://note-it-backend-pga4.onrender.com/links/update/${activeLinkId}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/links/update/${activeLinkId}`,
         payload,
         { withCredentials: true }
       );
@@ -156,7 +156,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
     try {
       Cookies.remove("jwt");
       await axios.post(
-        "https://note-it-backend-pga4.onrender.com/user/logout",
+       ` ${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/logout`,
         {},
         { withCredentials: true }
       );
@@ -184,7 +184,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
     try {
       const payload = { topicId: topicId };
       const res = await axios.post(
-        `https://note-it-backend-pga4.onrender.com/links/toggle/${linkId}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/links/toggle/${linkId}`,
         payload,
         { withCredentials: true }
       );

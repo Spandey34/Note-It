@@ -55,7 +55,7 @@ export default function ProfileDialog({ setUpdate }) {
       if (profilePic) formData.append("profilePic", profilePic);
 
       const res = await axios.post(
-        "https://note-it-backend-pga4.onrender.com/user/update", 
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/update`, 
         formData,
         {
           withCredentials: true,

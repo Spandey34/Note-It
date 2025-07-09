@@ -20,7 +20,7 @@ export default function Profile() {
     try {
       Cookies.remove("jwt");
       await axios.post(
-        "https://note-it-backend-pga4.onrender.com/user/logout",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/logout`,
         {},
         { withCredentials: true }
       );
