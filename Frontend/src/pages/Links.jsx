@@ -44,7 +44,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`http://localhost:5000/topics/${topicId}`, {
+        const res = await axios.get(`https://note-it-backend-pga4.onrender.com/topics/${topicId}`, {
           withCredentials: true,
         });
         setTopicName(res.data.topic.name);
@@ -76,7 +76,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
         kind: kind,
       };
 
-      const res = await axios.post("http://localhost:5000/links/add", payload, {
+      const res = await axios.post("https://note-it-backend-pga4.onrender.com/links/add", payload, {
         withCredentials: true,
       });
 
@@ -97,7 +97,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
     try {
       const payload = { topicId: topicId };
       const res = await axios.post(
-        `http://localhost:5000/links/remove/${activeLinkId}`,
+        `https://note-it-backend-pga4.onrender.com/links/remove/${activeLinkId}`,
         payload,
         { withCredentials: true }
       );
@@ -123,7 +123,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
       };
 
       const res = await axios.post(
-        `http://localhost:5000/links/update/${activeLinkId}`,
+        `https://note-it-backend-pga4.onrender.com/links/update/${activeLinkId}`,
         payload,
         { withCredentials: true }
       );
@@ -156,7 +156,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
     try {
       Cookies.remove("jwt");
       await axios.post(
-        "http://localhost:5000/user/logout",
+        "https://note-it-backend-pga4.onrender.com/user/logout",
         {},
         { withCredentials: true }
       );
@@ -184,7 +184,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
     try {
       const payload = { topicId: topicId };
       const res = await axios.post(
-        `http://localhost:5000/links/toggle/${linkId}`,
+        `https://note-it-backend-pga4.onrender.com/links/toggle/${linkId}`,
         payload,
         { withCredentials: true }
       );

@@ -20,7 +20,7 @@ export default function Profile() {
     try {
       Cookies.remove("jwt");
       await axios.post(
-        "http://localhost:5000/user/logout",
+        "https://note-it-backend-pga4.onrender.com/user/logout",
         {},
         { withCredentials: true }
       );
