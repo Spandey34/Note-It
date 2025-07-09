@@ -17,10 +17,6 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
-app.use("/",(req,res) => {
-  res.send("Backend is running!!");
-})
-
 app.use("/user", userRoute);
 app.use("/topics", topicRoute);
 app.use("/links", linkRoute);
