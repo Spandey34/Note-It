@@ -15,23 +15,19 @@ export default function Profile() {
   const { loading, setLoading } = useLoading();
 
   const handleLogout = async () => {
-    setLoading(true);
-    try {
-      Cookies.remove("jwt");
-      await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/logout`,
-        {},
-        { withCredentials: true }
-      );
-      setAuthUser(null);
-      window.location.reload();
-      navigate("/login");
-      setLoading(false);
-    } catch (error) {
-      console.error("Logout failed:", error);
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  try {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("authUser");
+
+    setAuthUser(null);
+    navigate("/login");
+  } catch (error) {
+    console.error("Logout failed:", error);
+  }
+  setLoading(false);
+};
+
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDark);

@@ -5,7 +5,14 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { useLoading } from "../context/LoadingProvider";
 import { GrMenu } from "react-icons/gr";
-import { FiSun, FiMoon, FiSearch, FiPlus, FiEdit2, FiTrash2 } from "react-icons/fi";
+import {
+  FiSun,
+  FiMoon,
+  FiSearch,
+  FiPlus,
+  FiEdit2,
+  FiTrash2,
+} from "react-icons/fi";
 
 export default function Topics({ selectedTopic, setSelectedTopic }) {
   const [mode, setMode] = useState(localStorage.getItem("mode") || "light");
@@ -30,13 +37,19 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
   useEffect(() => {
     const getTopics = async () => {
       try {
-        const res = await axios.get($`{import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics`, { 
-          withCredentials: true 
-        });
+        const token = localStorage.getItem("authToken");
+        const res = await axios.get(
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setTopics(res.data.topics);
       } catch (error) {
         console.log("Error", error.message);
-      }
+      } 
     };
     getTopics();
   }, []);
@@ -46,11 +59,20 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
     e.preventDefault();
     const trimmed = newTopic.trim();
     if (!trimmed) return;
+
+    const token = localStorage.getItem("authToken");
     const payload = { user: authUser, name: trimmed };
-    const res = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics/add`, payload, {
-      withCredentials: true,
-    });
-    Cookies.set("user", JSON.stringify(res.data.user), { expires: 7 });
+
+    const res = await axios.post(
+      `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics/add`,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
     setTopics(res.data.user.topics);
     setNewTopic("");
     setAuthUser(res.data.user);
@@ -60,59 +82,68 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
   const handleDeleteTopic = async (e) => {
     setLoading(true);
     e.preventDefault();
+
     try {
+      const token = localStorage.getItem("authToken");
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics/delete/${activeTopicId}`,
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/topics/delete/${activeTopicId}`,
         {},
-        { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setTopics(res.data.topics);
-      setLoading(false);
     } catch (error) {
       console.log("Error", error.message);
-      setLoading(false);
     }
+
+    setLoading(false);
     setActionType(null);
   };
 
   const handleRenameTopic = async (e) => {
     setLoading(true);
     e.preventDefault();
+
     try {
+      const token = localStorage.getItem("authToken");
       const payload = { newName: renameValue };
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics/rename/${activeTopicId}`,
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/topics/rename/${activeTopicId}`,
         payload,
-        { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setTopics(res.data.topics);
-      setLoading(false);
     } catch (error) {
       console.log("Error", error.message);
-      setLoading(false);
     }
+
+    setLoading(false);
     setActionType(null);
   };
 
   const handleLogout = async () => {
     setLoading(true);
     try {
-      Cookies.remove("jwt");
-      await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/logout`,
-        {},
-        { withCredentials: true }
-      );
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("authUser");
       setAuthUser(null);
       setShowLogoutConfirm(false);
-      window.location.reload();
       navigate("/login");
-      setLoading(false);
     } catch (error) {
       console.error("Logout failed:", error);
-      setShowLogoutConfirm(false);
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   const filteredTopics = topics.filter((t) =>
@@ -120,7 +151,11 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
   );
 
   return (
-    <div className={`min-h-screen relative overflow-hidden transition-colors duration-300 ${isDark ? "dark" : "light"}`}>
+    <div
+      className={`min-h-screen relative overflow-hidden transition-colors duration-300 ${
+        isDark ? "dark" : "light"
+      }`}
+    >
       {/* Dynamic Background */}
       <div className="fixed inset-0 z-0">
         {isDark ? (
@@ -142,7 +177,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
             Topics
           </span>
         </h1>
-        
+
         <div className="flex items-center gap-3 flex-wrap">
           <div className="flex gap-2 items-center">
             <input
@@ -172,58 +207,65 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
               <span>Add</span>
             </button>
             <button
-                onClick={() => setMode(isDark ? "light" : "dark")}
-                className={`h-9 w-9 p-3 rounded-full text-sm flex items-center gap-2 ${
-                  !isDark
-                    ? "bg-gray-700 hover:bg-gray-600 text-white"
-                    : "bg-yellow-200 hover:bg-yellow-300 text-gray-800"
-                } transition-colors`}
-              >
-                {isDark ? (
-                  <>
-                    <FiSun className="h-4 w-4 text-yellow-700 " />
-                  </>
-                ) : (
-                  <>
-                    <FiMoon className="h-4 w-4" />
-                  </>
-                )}
-              </button>
+              onClick={() => setMode(isDark ? "light" : "dark")}
+              className={`h-9 w-9 p-3 rounded-full text-sm flex items-center gap-2 ${
+                !isDark
+                  ? "bg-gray-700 hover:bg-gray-600 text-white"
+                  : "bg-yellow-200 hover:bg-yellow-300 text-gray-800"
+              } transition-colors`}
+            >
+              {isDark ? (
+                <>
+                  <FiSun className="h-4 w-4 text-yellow-700 " />
+                </>
+              ) : (
+                <>
+                  <FiMoon className="h-4 w-4" />
+                </>
+              )}
+            </button>
           </div>
-          
+
           {/* Dropdown Menu */}
           <div className="relative py-2 group">
             <div className="flex justify-center items-center">
-              <GrMenu className={`${isDark ? "text-white" : "text-black"} h-6 w-6`} />
-              
+              <GrMenu
+                className={`${isDark ? "text-white" : "text-black"} h-6 w-6`}
+              />
             </div>
-            
-            <div className={`absolute top-full right-0  w-40 p-3 rounded-lg shadow-xl ${
-              isDark ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
-            } border hidden group-hover:block transition-all duration-200`}>
-              <button 
-                onClick={() => { setLoading(true); navigate('/'); setLoading(false); }}
+
+            <div
+              className={`absolute top-full right-0  w-40 p-3 rounded-lg shadow-xl ${
+                isDark
+                  ? "bg-gray-800 border-gray-700"
+                  : "bg-white border-gray-200"
+              } border hidden group-hover:block transition-all duration-200`}
+            >
+              <button
+                onClick={() => {
+                  setLoading(true);
+                  navigate("/");
+                  setLoading(false);
+                }}
                 className={`w-full px-3 py-2 rounded-md text-sm flex items-center gap-2 ${
-                  isDark 
-                    ? "bg-green-700 hover:bg-green-600 text-white" 
+                  isDark
+                    ? "bg-green-700 hover:bg-green-600 text-white"
                     : "bg-green-500 hover:bg-green-600 text-white"
                 } transition-colors mb-2`}
               >
                 <span>Profile</span>
               </button>
-              
+
               <button
                 onClick={() => setShowLogoutConfirm(true)}
                 className={`w-full px-3 py-2 rounded-md text-sm flex items-center gap-2 ${
-                  isDark 
-                    ? "bg-red-700 hover:bg-red-600 text-white" 
+                  isDark
+                    ? "bg-red-700 hover:bg-red-600 text-white"
                     : "bg-red-500 hover:bg-red-600 text-white"
                 } transition-colors mb-2`}
               >
                 <span>Logout</span>
               </button>
-              
-              
             </div>
           </div>
         </div>
@@ -243,9 +285,11 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
                 : "bg-white text-gray-900 border-gray-200 placeholder-gray-500"
             } shadow-sm`}
           />
-          <div className={`absolute left-3 top-2.5 ${
-            isDark ? "text-gray-400" : "text-gray-500"
-          }`}>
+          <div
+            className={`absolute left-3 top-2.5 ${
+              isDark ? "text-gray-400" : "text-gray-500"
+            }`}
+          >
             <FiSearch className="h-5 w-5" />
           </div>
         </div>
@@ -300,13 +344,17 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
                     </button>
                   </div>
                 </div>
-                <p className={`text-sm mb-4 ${
-                  isDark ? "text-gray-300" : "text-gray-600"
-                }`}>
+                <p
+                  className={`text-sm mb-4 ${
+                    isDark ? "text-gray-300" : "text-gray-600"
+                  }`}
+                >
                   Links:{" "}
-                  <span className={`font-bold ${
-                    isDark ? "text-blue-400" : "text-blue-600"
-                  }`}>
+                  <span
+                    className={`font-bold ${
+                      isDark ? "text-blue-400" : "text-blue-600"
+                    }`}
+                  >
                     {topic.links?.length || 0}
                   </span>
                 </p>
@@ -315,7 +363,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
                     e.preventDefault();
                     setSelectedTopic({
                       topicId: topic._id,
-                      name: topic.name
+                      name: topic.name,
                     });
                     navigate(`/links/${topic._id}`);
                   }}
@@ -332,12 +380,16 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center h-full py-12">
-            <div className={`mb-6 p-6 rounded-full ${
-              isDark ? "bg-gray-800" : "bg-gray-100"
-            }`}>
+            <div
+              className={`mb-6 p-6 rounded-full ${
+                isDark ? "bg-gray-800" : "bg-gray-100"
+              }`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className={`h-16 w-16 ${isDark ? "text-gray-600" : "text-gray-400"}`}
+                className={`h-16 w-16 ${
+                  isDark ? "text-gray-600" : "text-gray-400"
+                }`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -350,14 +402,20 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
                 />
               </svg>
             </div>
-            <p className={`text-lg mb-6 ${
-              isDark ? "text-gray-400" : "text-gray-500"
-            }`}>
+            <p
+              className={`text-lg mb-6 ${
+                isDark ? "text-gray-400" : "text-gray-500"
+              }`}
+            >
               {search ? "No matching topics found" : "No topics yet"}
             </p>
             {!search && (
               <button
-                onClick={() => document.querySelector('input[placeholder="New Topic"]')?.focus()}
+                onClick={() =>
+                  document
+                    .querySelector('input[placeholder="New Topic"]')
+                    ?.focus()
+                }
                 className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 ${
                   isDark
                     ? "bg-blue-600 hover:bg-blue-700 text-white"
@@ -380,18 +438,23 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
               isDark ? "bg-gray-800" : "bg-white"
             }`}
           >
-            <h3 className={`text-xl font-bold mb-4 text-center ${
-              isDark ? "text-white" : "text-gray-900"
-            }`}>
+            <h3
+              className={`text-xl font-bold mb-4 text-center ${
+                isDark ? "text-white" : "text-gray-900"
+              }`}
+            >
               {actionType === "delete" ? "Delete Topic" : "Rename Topic"}
             </h3>
 
             {actionType === "delete" ? (
               <>
-                <p className={`mb-6 text-center ${
-                  isDark ? "text-gray-300" : "text-gray-600"
-                }`}>
-                  Delete "{topics.find(t => t._id === activeTopicId)?.name}" permanently?
+                <p
+                  className={`mb-6 text-center ${
+                    isDark ? "text-gray-300" : "text-gray-600"
+                  }`}
+                >
+                  Delete "{topics.find((t) => t._id === activeTopicId)?.name}"
+                  permanently?
                 </p>
                 <div className="flex justify-center gap-4">
                   <button
@@ -469,14 +532,18 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
               isDark ? "bg-gray-800" : "bg-white"
             }`}
           >
-            <h3 className={`text-xl font-bold mb-4 text-center ${
-              isDark ? "text-white" : "text-gray-900"
-            }`}>
+            <h3
+              className={`text-xl font-bold mb-4 text-center ${
+                isDark ? "text-white" : "text-gray-900"
+              }`}
+            >
               Confirm Logout
             </h3>
-            <p className={`mb-6 text-center ${
-              isDark ? "text-gray-300" : "text-gray-600"
-            }`}>
+            <p
+              className={`mb-6 text-center ${
+                isDark ? "text-gray-300" : "text-gray-600"
+              }`}
+            >
               Are you sure you want to logout?
             </p>
             <div className="flex justify-center gap-4">

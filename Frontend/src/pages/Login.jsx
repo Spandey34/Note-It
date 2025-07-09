@@ -40,9 +40,10 @@ export default function Login() {
           ? `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/signup`
           : `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/login`;
 
-      const res = await axios.post(url, payload, { withCredentials: true });
+      const res = await axios.post(url, payload);
+      localStorage.setItem("authToken", res.data.token);
       setMsg(res.data.message);
-
+      localStorage.setItem("authUser", JSON.stringify(res.data.user));
       setAuthUser(res.data.user);
       navigate("/");
       setLoading(false);

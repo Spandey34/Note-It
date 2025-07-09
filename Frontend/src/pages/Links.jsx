@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthProvider";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useNavigate, useParams } from "react-router-dom";
 import { GrMenu } from "react-icons/gr";
 import {
@@ -41,25 +40,44 @@ function Links({ selectedTopic, setSelectedTopic }) {
   }, [mode]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    if (!topicId) return;
+
+    const fetchTopic = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics/${topicId}`, {
-          withCredentials: true,
-        });
-        setTopicName(res.data.topic.name);
-        setLinks(res.data.topic.links);
-        setLoading(false);
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+          navigate("/login");
+          return;
+        }
+
+        const res = await axios.get(
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/topics/${topicId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+          }
+        );
+        const topic = res.data.topic;
+        setTopicName(topic?.name || "");
+        setLinks(topic?.links || []);
       } catch (error) {
-        console.log("Error", error.message);
+        console.error("Failed to fetch topic:", error.message);
+        if (error.response?.status === 401) {
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("authUser");
+          setAuthUser({});
+          navigate("/login");
+        }
+      } finally {
         setLoading(false);
       }
     };
 
-    if (selectedTopic) {
-      fetchData();
-    }
-  }, [selectedTopic]);
+    fetchTopic();
+  }, [topicId]);
 
   const handleAddLink = async (e) => {
     e.preventDefault();
@@ -68,6 +86,12 @@ function Links({ selectedTopic, setSelectedTopic }) {
     if (!trimmed) return;
 
     try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
       const payload = {
         link: newLink,
         info: info,
@@ -76,18 +100,31 @@ function Links({ selectedTopic, setSelectedTopic }) {
         kind: kind,
       };
 
-      const res = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/links/add`, payload, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/links/add`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
 
       setLinks(res.data.links);
       setNewLink("");
       setInfo("");
       setNote("");
       setKind("url");
-      setLoading(false);
     } catch (error) {
       console.log("Error adding link:", error.message);
+      if (error.response?.status === 401) {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("authUser");
+        setAuthUser({});
+        navigate("/login");
+      }
+    } finally {
       setLoading(false);
     }
   };
@@ -95,18 +132,37 @@ function Links({ selectedTopic, setSelectedTopic }) {
   const handleDeleteLink = async () => {
     setLoading(true);
     try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
       const payload = { topicId: topicId };
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/links/remove/${activeLinkId}`,
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/links/remove/${activeLinkId}`,
         payload,
-        { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
       );
       setLinks(links.filter((link) => link._id !== activeLinkId));
       setActionType(null);
       setActiveLinkId(null);
-      setLoading(false);
     } catch (error) {
       console.log("Error deleting link:", error.message);
+      if (error.response?.status === 401) {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("authUser");
+        setAuthUser({});
+        navigate("/login");
+      }
+    } finally {
       setLoading(false);
     }
   };
@@ -114,6 +170,12 @@ function Links({ selectedTopic, setSelectedTopic }) {
   const handleUpdateLink = async () => {
     setLoading(true);
     try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
       const payload = {
         newLink: newLink,
         info: info,
@@ -123,9 +185,16 @@ function Links({ selectedTopic, setSelectedTopic }) {
       };
 
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/links/update/${activeLinkId}`,
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/links/update/${activeLinkId}`,
         payload,
-        { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
       );
 
       setLinks(res.data.links);
@@ -135,9 +204,15 @@ function Links({ selectedTopic, setSelectedTopic }) {
       setActionType(null);
       setActiveLinkId(null);
       setKind("url");
-      setLoading(false);
     } catch (error) {
       console.log("Error updating link:", error.message);
+      if (error.response?.status === 401) {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("authUser");
+        setAuthUser({});
+        navigate("/login");
+      }
+    } finally {
       setLoading(false);
     }
   };
@@ -152,25 +227,18 @@ function Links({ selectedTopic, setSelectedTopic }) {
   };
 
   const handleLogout = async () => {
-    setLoading(true);
-    try {
-      Cookies.remove("jwt");
-      await axios.post(
-       ` ${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/logout`,
-        {},
-        { withCredentials: true }
-      );
-      setAuthUser({});
-      setShowLogoutConfirm(false);
-      window.location.reload();
-      navigate("/login");
-      setLoading(false);
-    } catch (error) {
-      console.error("Logout failed:", error);
-      setShowLogoutConfirm(false);
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  try {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("authUser");
+
+    setAuthUser(null);
+    navigate("/login");
+  } catch (error) {
+    console.error("Logout failed:", error);
+  }
+  setLoading(false);
+};
 
   const filteredLinks = links.filter(
     (link) =>
@@ -182,16 +250,35 @@ function Links({ selectedTopic, setSelectedTopic }) {
   const toggleIt = async ({ e, linkId }) => {
     setLoading(true);
     try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
       const payload = { topicId: topicId };
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/links/toggle/${linkId}`,
+        `${
+          import.meta.env.VITE_REACT_APP_BACKEND_BASEURL
+        }/links/toggle/${linkId}`,
         payload,
-        { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
       );
       setLinks(res.data.links);
-      setLoading(false);
     } catch (error) {
       console.log("Error in toggling!");
+      if (error.response?.status === 401) {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("authUser");
+        setAuthUser({});
+        navigate("/login");
+      }
+    } finally {
       setLoading(false);
     }
   };

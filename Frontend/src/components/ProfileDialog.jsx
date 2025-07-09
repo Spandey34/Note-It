@@ -6,7 +6,7 @@ import { FiUpload, FiX, FiUser, FiCamera } from "react-icons/fi";
 import { toast } from "react-toastify";
 
 export default function ProfileDialog({ setUpdate }) {
-  const  [authUser, setAuthUser]  = useAuth();
+  const [authUser, setAuthUser] = useAuth();
   const [name, setName] = useState(authUser.name);
   const [password, setPassword] = useState("");
   const [profilePic, setProfilePic] = useState(null);
@@ -26,7 +26,7 @@ export default function ProfileDialog({ setUpdate }) {
         toast.error("Image size must be less than 5MB");
         return;
       }
-      
+
       setProfilePic(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -47,20 +47,22 @@ export default function ProfileDialog({ setUpdate }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
+      const token = localStorage.getItem("authToken");
+
       const formData = new FormData();
       formData.append("name", name);
       if (password) formData.append("password", password);
       if (profilePic) formData.append("profilePic", profilePic);
 
       const res = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/update`, 
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/user/update`,
         formData,
         {
-          withCredentials: true,
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -133,7 +135,10 @@ export default function ProfileDialog({ setUpdate }) {
 
           {/* Name Field */}
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >
               Name
             </label>
             <input
@@ -148,7 +153,10 @@ export default function ProfileDialog({ setUpdate }) {
 
           {/* Email Field (readonly) */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >
               Email
             </label>
             <input
@@ -162,7 +170,10 @@ export default function ProfileDialog({ setUpdate }) {
 
           {/* Password Field */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >
               New Password (optional)
             </label>
             <input

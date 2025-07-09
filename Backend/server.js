@@ -1,16 +1,17 @@
-import express, { urlencoded } from "express";
+import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-import cookieParser from "cookie-parser";
-import userRoute from "./routes/userRoute.js"
-import topicRoute from "./routes/topicRoute.js"
-import linkRoute from "./routes/linkRoute.js"
+import userRoute from "./routes/userRoute.js";
+import topicRoute from "./routes/topicRoute.js";
+import linkRoute from "./routes/linkRoute.js";
 import path from "path";
 
-dotenv.config()
+dotenv.config();
 const app = express();
 app.use(express.json());
+
+// ✅ CORS setup to allow frontend access
 const allowedOrigins = [
   process.env.FRONTEND_URL,
   "http://localhost:3000"
@@ -26,21 +27,23 @@ app.use(cors({
   },
   credentials: true
 }));
-app.use(cookieParser());
 
+// ✅ Routes
 app.use("/user", userRoute);
 app.use("/topics", topicRoute);
 app.use("/links", linkRoute);
-app.use("/",(req,res) => {
+
+// ✅ Default route
+app.use("/", (req, res) => {
   res.send("Welcome to Backend");
 });
 
-
+// ✅ Mongo + Server startup
 const PORT = process.env.PORT || 4000;
 mongoose.connect(process.env.MONGO_URI)
 .then(() => {
-    console.log("MongoDb Connected!");
-    app.listen(PORT, () => {
-        console.log(`Server is running at PORT: ${PORT}`)
-    })
-})
+  console.log("MongoDB Connected!");
+  app.listen(PORT, () => {
+    console.log(`Server is running at PORT: ${PORT}`);
+  });
+});
