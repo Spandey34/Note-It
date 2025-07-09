@@ -12,7 +12,7 @@ dotenv.config()
 const app = express();
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173', // frontend URL
+  origin: 'https://note-it-frontend-wyjh.onrender.com', // frontend URL
   credentials: true
 }));
 app.use(cookieParser());
