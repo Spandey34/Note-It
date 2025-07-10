@@ -227,18 +227,17 @@ function Links({ selectedTopic, setSelectedTopic }) {
   };
 
   const handleLogout = async () => {
-  setLoading(true);
-  try {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("authUser");
-
-    setAuthUser(null);
-    navigate("/login");
-  } catch (error) {
-    console.error("Logout failed:", error);
-  }
-  setLoading(false);
-};
+    setLoading(true);
+    try {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("authUser");
+      setAuthUser(null);
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+    setLoading(false);
+  };
 
   const filteredLinks = links.filter(
     (link) =>
@@ -303,7 +302,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
       </div>
 
       {/* Header */}
-      <header className="relative z-10 p-6 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
+      <header className="relative z-10 p-4 sm:p-6 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
         <div className="flex items-center gap-4">
           <button
             onClick={(e) => {
@@ -320,7 +319,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
               className={`h-5 w-5 ${isDark ? "text-white" : "text-gray-800"}`}
             />
           </button>
-          <h1 className="text-2xl md:text-3xl font-bold">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
             <span className={isDark ? "text-white" : "text-gray-900"}>
               Links in{" "}
             </span>
@@ -357,7 +356,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
             </div>
 
             <div
-              className={`absolute top-full right-0  w-40 p-3 rounded-lg shadow-xl ${
+              className={`absolute top-full right-0 w-40 p-3 rounded-lg shadow-xl ${
                 isDark
                   ? "bg-gray-800 border-gray-700"
                   : "bg-white border-gray-200"
@@ -394,9 +393,9 @@ function Links({ selectedTopic, setSelectedTopic }) {
       </header>
 
       {/* Link Input Form */}
-      <div className=" z-10 px-6 mb-6">
+      <div className="z-10 px-4 sm:px-6 mb-6">
         <div
-          className={`p-6 rounded-xl shadow-lg ${
+          className={`p-4 sm:p-6 rounded-xl shadow-lg ${
             isDark ? "bg-gray-800/90" : "bg-white/90"
           } backdrop-blur-sm border ${
             isDark ? "border-gray-700" : "border-gray-200"
@@ -518,7 +517,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
       </div>
 
       {/* Search */}
-      <div className="relative z-10 px-6 mb-6">
+      <div className="relative z-10 px-4 sm:px-6 mb-6">
         <div className="relative">
           <input
             type="text"
@@ -542,7 +541,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
       </div>
 
       {/* Links List */}
-      <div className="relative z-10 h-[calc(100vh-320px)] overflow-y-auto custom-scroll px-6 pb-8 pt-2">
+      <div className="relative z-10 h-[calc(100vh-320px)] overflow-y-auto custom-scroll px-4 sm:px-6 pb-8 pt-2">
         {filteredLinks.length > 0 ? (
           <div className="grid gap-4">
             {filteredLinks.map((link) => (
