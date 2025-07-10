@@ -355,6 +355,9 @@ function Links({ selectedTopic, setSelectedTopic }) {
           </div>
 
           <div className="flex items-center  gap-3">
+              <button className={`bg-blue-500 w-18 flex p-1 gap-1 rounded-md justify-center items-center hover:bg-blue-600`} onClick={() => {
+                setActionType("add");
+              }} ><FiPlus className="h-4 w-4" />Add</button>
             <button
               onClick={() => setMode(isDark ? "light" : "dark")}
               className={`h-9 w-9 p-3 rounded-full text-sm flex text-center items-center gap-2 ${
