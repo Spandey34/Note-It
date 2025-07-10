@@ -26,6 +26,7 @@ export default function Profile() {
     console.error("Logout failed:", error);
   }
   setLoading(false);
+  window.location.reload();
 };
 
 

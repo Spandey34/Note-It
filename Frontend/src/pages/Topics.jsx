@@ -144,6 +144,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
       console.error("Logout failed:", error);
     }
     setLoading(false);
+    window.location.reload();
   };
 
   const filteredTopics = topics.filter((t) =>

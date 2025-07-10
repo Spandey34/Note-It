@@ -227,17 +227,17 @@ function Links({ selectedTopic, setSelectedTopic }) {
     setActionType("edit");
   };
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     setLoading(true);
     try {
       localStorage.removeItem("authToken");
       localStorage.removeItem("authUser");
-      setAuthUser(null);
       navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
     }
     setLoading(false);
+    window.location.reload();
   };
 
   const filteredLinks = links.filter(
@@ -327,7 +327,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
         </div>
 
         {/* Header */}
-        <header className="relative z-10 p-6 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
+        <header className="relative z-10 p-6 flex gap-4 flex-row justify-between items-center">
           <div className="flex items-center gap-4">
             <button
               onClick={(e) => {
@@ -413,10 +413,8 @@ function Links({ selectedTopic, setSelectedTopic }) {
           </div>
         </header>
 
-        {/* Link Input Form */}
-
         {/* Search */}
-        <div className="relative z-10 px-6 mb-6">
+        <div className="z-10 px-6 mb-10 mt-2">
           <div className="relative">
             <input
               type="text"
@@ -696,7 +694,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
                     isDark
                       ? "bg-red-600 hover:bg-red-700 text-white"
                       : "bg-red-500 hover:bg-red-600 text-white"
-                  } shadow-md hover:shadow-lg`}
+                  } shadow-md cursor-pointer hover:shadow-lg`}
                 >
                   {loading ? (
                     <div className="flex items-center justify-center">
