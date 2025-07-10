@@ -117,6 +117,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
       setInfo("");
       setNote("");
       setKind("url");
+      
     } catch (error) {
       console.log("Error adding link:", error.message);
       if (error.response?.status === 401) {
@@ -128,6 +129,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
     } finally {
       setLoading(false);
     }
+    setActionType(null);
   };
 
   const handleDeleteLink = async () => {
