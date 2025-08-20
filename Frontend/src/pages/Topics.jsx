@@ -195,7 +195,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
             <button
               onClick={handleAddTopic}
               disabled={!newTopic.trim()}
-              className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all shadow-md hover:shadow-lg flex items-center gap-1 ${
+              className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all shadow-md hover:shadow-lg flex items-center gap-1 cursor-pointer ${
                 !newTopic.trim()
                   ? "bg-gray-400 cursor-not-allowed"
                   : isDark
@@ -208,7 +208,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
             </button>
             <button
               onClick={() => setMode(isDark ? "light" : "dark")}
-              className={`h-9 w-9 p-3 rounded-full text-sm flex items-center gap-2 ${
+              className={`h-9 w-9 p-3 rounded-full text-sm flex items-center gap-2 cursor-pointer ${
                 !isDark
                   ? "bg-gray-700 hover:bg-gray-600 text-white"
                   : "bg-yellow-200 hover:bg-yellow-300 text-gray-800"
@@ -247,7 +247,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
                   navigate("/");
                   setLoading(false);
                 }}
-                className={`w-full px-3 py-2 rounded-md text-sm flex items-center gap-2 ${
+                className={`w-full px-3 py-2 rounded-md text-sm flex items-center gap-2 cursor-pointer ${
                   isDark
                     ? "bg-green-700 hover:bg-green-600 text-white"
                     : "bg-green-500 hover:bg-green-600 text-white"
@@ -258,7 +258,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
 
               <button
                 onClick={() => setShowLogoutConfirm(true)}
-                className={`w-full px-3 py-2 rounded-md text-sm flex items-center gap-2 ${
+                className={`w-full px-3 py-2 rounded-md text-sm flex items-center gap-2 cursor-pointer ${
                   isDark
                     ? "bg-red-700 hover:bg-red-600 text-white"
                     : "bg-red-500 hover:bg-red-600 text-white"
@@ -319,7 +319,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
                         setActionType("rename");
                         setRenameValue(topic.name);
                       }}
-                      className={`p-1.5 rounded-md transition-colors ${
+                      className={`p-1.5 rounded-md transition-colors cursor-pointer ${
                         isDark
                           ? "hover:bg-gray-700 text-blue-400"
                           : "hover:bg-gray-100 text-blue-600"
@@ -333,7 +333,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
                         setActiveTopicId(topic._id);
                         setActionType("delete");
                       }}
-                      className={`p-1.5 rounded-md transition-colors ${
+                      className={`p-1.5 rounded-md transition-colors cursor-pointer ${
                         isDark
                           ? "hover:bg-gray-700 text-red-400"
                           : "hover:bg-gray-100 text-red-600"
@@ -367,7 +367,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
                     });
                     navigate(`/links/${topic._id}`);
                   }}
-                  className={`w-full mt-2 py-2 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
+                  className={`w-full mt-2 py-2 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
                     isDark
                       ? "bg-blue-600 hover:bg-blue-700 text-white"
                       : "bg-blue-500 hover:bg-blue-600 text-white"
@@ -416,7 +416,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
                     .querySelector('input[placeholder="New Topic"]')
                     ?.focus()
                 }
-                className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 ${
+                className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 cursor-pointer ${
                   isDark
                     ? "bg-blue-600 hover:bg-blue-700 text-white"
                     : "bg-blue-500 hover:bg-blue-600 text-white"

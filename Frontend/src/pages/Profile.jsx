@@ -68,12 +68,12 @@ export default function Profile() {
           </h1>
           <button
             onClick={() => setMode(isDark ? "light" : "dark")}
-            className={`p-2 rounded-full transition-all duration-300 ${
+            className={`p-2 rounded-full transition-all duration-300 cursor-pointer ${
               isDark
                 ? "bg-yellow-100 text-yellow-600 hover:bg-yellow-200"
                 : "bg-gray-800 text-gray-100 hover:bg-gray-700"
             }`}
-            aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+            aria-label={`Switch to ${isDark ? "light" : "dark"} mode`} 
           >
             {isDark ? (
               <svg
@@ -166,7 +166,7 @@ export default function Profile() {
                 <div className="flex justify-center space-x-4">
                   <button
                     onClick={() => setUpdate(true)}
-                    className={`px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md ${
+                    className={`px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md cursor-pointer ${
                       isDark
                         ? "bg-blue-600 hover:bg-blue-700 text-white"
                         : "bg-blue-500 hover:bg-blue-600 text-white"
@@ -176,7 +176,7 @@ export default function Profile() {
                   </button>
                   <button
                     onClick={showTopics}
-                    className={`px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md ${
+                    className={`px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md cursor-pointer ${
                       isDark
                         ? "bg-green-600 hover:bg-green-700 text-white"
                         : "bg-green-500 hover:bg-green-600 text-white"
@@ -187,7 +187,7 @@ export default function Profile() {
                 </div>
                 <button
                   onClick={handleLogout}
-                  className={`px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md ${
+                  className={`px-5 py-2 rounded-lg font-medium transition-all duration-200 shadow-md cursor-pointer ${
                     isDark
                       ? "bg-purple-600 hover:bg-purple-700 text-white"
                       : "bg-purple-500 hover:bg-purple-600 text-white"

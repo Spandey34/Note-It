@@ -336,7 +336,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
                 setSelectedTopic({});
                 navigate("/topics");
               }}
-              className={`p-2 rounded-full ${
+              className={`p-2 rounded-full cursor-pointer ${
                 isDark
                   ? "bg-gray-700 hover:bg-gray-600"
                   : "bg-gray-200 hover:bg-gray-300"
@@ -354,12 +354,12 @@ function Links({ selectedTopic, setSelectedTopic }) {
           </div>
 
           <div className="flex items-center  gap-3">
-              <button className={`bg-blue-500 w-18 flex p-1 gap-1 rounded-md justify-center items-center hover:bg-blue-600`} onClick={() => {
+              <button className={`bg-blue-500 w-18 flex p-1 gap-1 rounded-md justify-center items-center hover:bg-blue-600 cursor-pointer`} onClick={() => {
                 setActionType("add");
               }} ><FiPlus className="h-4 w-4" />Add</button>
             <button
               onClick={() => setMode(isDark ? "light" : "dark")}
-              className={`h-9 w-9 p-3 rounded-full text-sm flex text-center items-center gap-2 ${
+              className={`h-9 w-9 p-3 rounded-full text-sm flex text-center items-center gap-2 cursor-pointer ${
                 !isDark
                   ? "bg-gray-700 hover:bg-gray-600 text-white"
                   : "bg-yellow-200 hover:bg-yellow-300 text-gray-800"
@@ -391,7 +391,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
                     navigate("/");
                     setLoading(false);
                   }}
-                  className={`w-full px-3 py-2 rounded-md text-sm flex items-center gap-2 ${
+                  className={`w-full px-3 py-2 rounded-md text-sm flex items-center gap-2 cursor-pointer ${
                     isDark
                       ? "bg-green-700 hover:bg-green-600 text-white"
                       : "bg-green-500 hover:bg-green-600 text-white"
@@ -402,7 +402,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
 
                 <button
                   onClick={() => setShowLogoutConfirm(true)}
-                  className={`w-full px-3 py-2 rounded-md text-sm flex items-center gap-2 ${
+                  className={`w-full px-3 py-2 rounded-md text-sm flex items-center gap-2 cursor-pointer ${
                     isDark
                       ? "bg-red-700 hover:bg-red-600 text-white"
                       : "bg-red-500 hover:bg-red-600 text-white"
