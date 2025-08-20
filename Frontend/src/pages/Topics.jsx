@@ -173,7 +173,6 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
       {/* Header */}
       <header className="relative z-10 p-6 flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
         <h1 className="text-4xl font-bold">
-          <span className={isDark ? "text-white" : "text-gray-900"}>Your </span>
           <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Topics
           </span>
