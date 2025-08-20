@@ -374,7 +374,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
                       : "bg-blue-500 hover:bg-blue-600 text-white"
                   } shadow-md hover:shadow-lg`}
                 >
-                  View Links
+                  View
                 </button>
               </div>
             ))}
