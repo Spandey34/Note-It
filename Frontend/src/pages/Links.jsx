@@ -129,7 +129,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
     } finally {
       setLoading(false);
     }
-    setActionType(null);
+                           
   };
 
   const handleDeleteLink = async () => {
@@ -598,13 +598,9 @@ function Links({ selectedTopic, setSelectedTopic }) {
               </p>
               {!search && (
                 <button
-                  onClick={() =>
-                    document
-                      .querySelector(
-                        'input[placeholder="Paste your link here"]'
-                      )
-                      ?.focus()
-                  }
+                  onClick={() => {
+                setActionType("add");
+              }}
                   className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 ${
                     isDark
                       ? "bg-blue-600 hover:bg-blue-700 text-white"
