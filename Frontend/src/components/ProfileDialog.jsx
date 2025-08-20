@@ -1,28 +1,25 @@
-import React, { useState, useRef } from "react";
+Import React, { useState, useRef } from "react";
 import { useAuth } from "../context/AuthProvider";
 import axios from "axios";
 import { useLoading } from "../context/LoadingProvider";
-import { FiX, FiUser, FiCamera } from "react-icons/fi";
+import { FiUpload, FiX, FiUser, FiCamera } from "react-icons/fi";
 import { toast } from "react-toastify";
 
 export default function ProfileDialog({ setUpdate }) {
-  const [authUser, setAuthJser] = useAuth();
-
-  const fullPhotoUrl = authUser.photoUrl
-    ? `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}${authUser.photoUrl}`
-    : "";
-
+  const [authUser, setAuthUser] = useAuth();
   const [name, setName] = useState(authUser.name);
   const [password, setPassword] = useState("");
   const [profilePic, setProfilePic] = useState(null);
-  const [previewImage, setPreviewImage] = useState(fullPhotoUrl);
+  const [previewImage, setPreviewImage] = useState(authUser.photoUrl || "");
   const fileInputRef = useRef(null);
   const { setLoading } = useLoading();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    //alert("Hello! This is a browser alert.");
     if (file) {
-      if (!file.type.match(/image\.(jpeg|jpg|png|gif)$/)) {
+      // Validate file type and size
+      if (!file.type.match(/image.(jpeg|jpg|png|gif)$/)) {
         toast.error("Please select a valid image file (JPEG, JPG, PNG, GIF)");
         return;
       }
@@ -30,6 +27,7 @@ export default function ProfileDialog({ setUpdate }) {
         toast.error("Image size must be less than 5MB");
         return;
       }
+
       setProfilePic(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -41,7 +39,7 @@ export default function ProfileDialog({ setUpdate }) {
 
   const handleRemoveImage = () => {
     setProfilePic(null);
-    setPreviewImage(fullPhotoUrl);
+    setPreviewImage(authUser.photoUrl || "");
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -53,6 +51,7 @@ export default function ProfileDialog({ setUpdate }) {
 
     try {
       const token = localStorage.getItem("authToken");
+
       const formData = new FormData();
       formData.append("name", name);
       if (password) formData.append("password", password);
@@ -95,6 +94,7 @@ export default function ProfileDialog({ setUpdate }) {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Profile Picture Upload */}
           <div className="flex flex-col items-center">
             <div className="relative group mb-2">
               <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
@@ -123,7 +123,7 @@ export default function ProfileDialog({ setUpdate }) {
                 className="hidden"
               />
             </div>
-            {previewImage && previewImage !== fullPhotoUrl && (
+            {previewImage && previewImage !== authUser.photoUrl && (
               <button
                 type="button"
                 onClick={handleRemoveImage}
@@ -134,6 +134,7 @@ export default function ProfileDialog({ setUpdate }) {
             )}
           </div>
 
+          {/* Name Field */}
           <div>
             <label
               htmlFor="name"
@@ -151,6 +152,7 @@ export default function ProfileDialog({ setUpdate }) {
             />
           </div>
 
+          {/* Email Field (readonly) */}
           <div>
             <label
               htmlFor="email"
@@ -167,6 +169,7 @@ export default function ProfileDialog({ setUpdate }) {
             />
           </div>
 
+          {/* Password Field */}
           <div>
             <label
               htmlFor="password"
@@ -184,6 +187,7 @@ export default function ProfileDialog({ setUpdate }) {
             />
           </div>
 
+          {/* Action Buttons */}
           <div className="flex justify-end gap-3 pt-4">
             <button
               type="button"
