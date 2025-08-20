@@ -16,7 +16,7 @@ export default function ProfileDialog({ setUpdate }) {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    alert("Hello! This is a browser alert.");
+    //alert("Hello! This is a browser alert.");
     if (file) {
       // Validate file type and size
       if (!file.type.match(/image.(jpeg|jpg|png|gif)$/)) {
