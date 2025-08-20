@@ -74,11 +74,8 @@ export default function Login() {
       {/* Header Section */}
       <header className="relative z-10 p-6 flex justify-between items-center">
         <h1 className="text-4xl font-bold">
-          <span className={`${isDark ? "text-white" : "text-gray-900"}`}>
-            {state === "signup" ? "Create " : "Welcome to "}
-          </span>
           <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Account
+            NOTE-IT
           </span>
         </h1>
         <button
@@ -163,7 +160,7 @@ export default function Login() {
           <h2 className={`text-3xl font-bold text-center mb-6 ${
             isDark ? "text-white" : "text-gray-800"
           }`}>
-            {state === "signup" ? "Create Account" : "Welcome Back"}
+            {state === "signup" ? "Create Account" : "Login"}
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
