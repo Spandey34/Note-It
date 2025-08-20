@@ -1,4 +1,4 @@
-Import React, { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useAuth } from "../context/AuthProvider";
 import axios from "axios";
 import { useLoading } from "../context/LoadingProvider";
