@@ -347,9 +347,6 @@ function Links({ selectedTopic, setSelectedTopic }) {
               />
             </button>
             <h1 className="text-2xl md:text-3xl font-bold">
-              <span className={isDark ? "text-white" : "text-gray-900"}>
-                Links in{" "}
-              </span>
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 {topicName}
               </span>
@@ -593,8 +590,8 @@ function Links({ selectedTopic, setSelectedTopic }) {
                 }`}
               >
                 {search
-                  ? "No matching links found"
-                  : "No links yet for this topic"}
+                  ? `No matching content found for ${topicName}`
+                  : `No such content yet for ${topicName}`}
               </p>
               {!search && (
                 <button
@@ -608,7 +605,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
                   } shadow-md hover:shadow-lg flex items-center gap-2`}
                 >
                   <FiPlus className="h-4 w-4" />
-                  <span>Add Your First Link</span>
+                  <span>Add Your First Content</span>
                 </button>
               )}
             </div>

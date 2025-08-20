@@ -10,13 +10,6 @@ import path from "path";
 dotenv.config();
 const app = express();
 app.use(express.json());
-
-// ✅ CORS setup to allow frontend access
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  "http://localhost:3000"
-];
-
 app.use(cors({
   origin: process.env.FRONTEND_URL || "http://localhost:3000",
   credentials: true

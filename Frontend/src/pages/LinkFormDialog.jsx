@@ -49,7 +49,7 @@ function LinkFormDialog({
                 type="text"
                 value={newLink}
                 onChange={(e) => setNewLink(e.target.value)}
-                placeholder="Paste your link here"
+                placeholder="Paste your link/heading here"
                 className={`w-full px-4 py-2 rounded-lg border outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 ${
                   isDark
                     ? "bg-gray-700 text-white border-gray-600 placeholder-gray-400"
