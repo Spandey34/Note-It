@@ -28,7 +28,7 @@ function LinkFormDialog({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-400 hover:text-gray-100"
+          className="absolute top-3 right-3 text-gray-400 hover:text-gray-100 cursor-pointer"
         >
           <FiX className="h-6 w-6" />
         </button>
@@ -112,7 +112,7 @@ function LinkFormDialog({
             <button
               type="button"
               onClick={onClose}
-              className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+              className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 cursor-pointer ${
                 isDark
                   ? "bg-gray-700 hover:bg-gray-600 text-white"
                   : "bg-gray-200 hover:bg-gray-300 text-gray-800"
@@ -123,7 +123,7 @@ function LinkFormDialog({
             <button
               type="submit"
               disabled={!newLink.trim()}
-              className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+              className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${newLink.trim()&&"cursor-pointer"} ${
                 !newLink.trim()
                   ? "opacity-50 cursor-not-allowed"
                   : isDark

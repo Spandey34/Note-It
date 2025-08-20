@@ -507,7 +507,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleEditClick(link)}
-                        className={`p-1.5 rounded-md transition-colors ${
+                        className={`p-1.5 rounded-md transition-colors cursor-pointer ${
                           isDark
                             ? "hover:bg-gray-700 text-blue-400"
                             : "hover:bg-gray-100 text-blue-600"
@@ -521,7 +521,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
                           setActiveLinkId(link._id);
                           setActionType("delete");
                         }}
-                        className={`p-1.5 rounded-md transition-colors ${
+                        className={`p-1.5 rounded-md transition-colors cursor-pointer ${
                           isDark
                             ? "hover:bg-gray-700 text-red-400"
                             : "hover:bg-gray-100 text-red-600"
@@ -598,7 +598,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
                   onClick={() => {
                 setActionType("add");
               }}
-                  className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 ${
+                  className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 cursor-pointer ${
                     isDark
                       ? "bg-blue-600 hover:bg-blue-700 text-white"
                       : "bg-blue-500 hover:bg-blue-600 text-white"
@@ -637,7 +637,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
               <div className="flex justify-center gap-4">
                 <button
                   onClick={handleDeleteLink}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex-1 ${
+                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex-1 cursor-pointer ${
                     isDark
                       ? "bg-red-600 hover:bg-red-700 text-white"
                       : "bg-red-500 hover:bg-red-600 text-white"
@@ -650,7 +650,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
                     setActionType(null);
                     setActiveLinkId(null);
                   }}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex-1 ${
+                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex-1 cursor-pointer ${
                     isDark
                       ? "bg-gray-700 hover:bg-gray-600 text-white"
                       : "bg-gray-200 hover:bg-gray-300 text-gray-800"
@@ -688,7 +688,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
               <div className="flex justify-center gap-4">
                 <button
                   onClick={handleLogout}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex-1 ${
+                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex-1 cursor-pointer ${
                     isDark
                       ? "bg-red-600 hover:bg-red-700 text-white"
                       : "bg-red-500 hover:bg-red-600 text-white"
@@ -724,7 +724,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
                 </button>
                 <button
                   onClick={() => setShowLogoutConfirm(false)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex-1 ${
+                  className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex-1 cursor-pointer ${
                     isDark
                       ? "bg-gray-700 hover:bg-gray-600 text-white"
                       : "bg-gray-200 hover:bg-gray-300 text-gray-800"

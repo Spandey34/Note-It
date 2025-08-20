@@ -195,7 +195,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
             <button
               onClick={handleAddTopic}
               disabled={!newTopic.trim()}
-              className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all shadow-md hover:shadow-lg flex items-center gap-1 cursor-pointer ${
+              className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all shadow-md hover:shadow-lg flex items-center gap-1 ${newTopic.trim()&&"cursor-pointer"} ${
                 !newTopic.trim()
                   ? "bg-gray-400 cursor-not-allowed"
                   : isDark
