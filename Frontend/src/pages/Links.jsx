@@ -117,7 +117,7 @@ function Links({ selectedTopic, setSelectedTopic }) {
       setInfo("");
       setNote("");
       setKind("url");
-      
+      setActionType(null);
     } catch (error) {
       console.log("Error adding link:", error.message);
       if (error.response?.status === 401) {
