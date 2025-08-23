@@ -349,7 +349,7 @@ export default function Topics({ selectedTopic, setSelectedTopic }) {
                     isDark ? "text-gray-300" : "text-gray-600"
                   }`}
                 >
-                  Links:{" "}
+                  Added:{" "}
                   <span
                     className={`font-bold ${
                       isDark ? "text-blue-400" : "text-blue-600"
